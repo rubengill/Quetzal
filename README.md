@@ -1,7 +1,7 @@
 # Quetzal: Live Drone Object Inference
 
 ## Overview
-This project demonstrates a microservices architecture for a modern application, leveraging the benefits of modularity, scalability, and maintainability. The architecture consists of **7 distinct microservices**, each hosted across different origins and unified through a **custom Node.js API Gateway**.
+This project demonstrates a microservices architecture for a modern application, leveraging the benefits of modularity, scalability, and maintainability. The architecture consists of **6 distinct microservices**, each hosted across different origins and unified through a **custom Node.js API Gateway**.
 
 The primary goal of this project is to showcase the potential of microservices to manage complex systems by dividing them into smaller, manageable services while ensuring seamless communication and integration.
 
