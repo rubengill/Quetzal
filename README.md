@@ -60,7 +60,7 @@ The **Node.js API Gateway** consolidates these services under a single entry poi
 - **Backend:** Flask, Node.js, Python
 - **Frontend:** React.js, Tailwind CSS, SvelteKit, PicoCss
 - **Database:** PostgreSQL, SQLite
-- **AI video inference:** YOLOv11, CUDA optimization
+- **AI video inference:** YOLO11, CUDA optimization
 - **AI image inference:** YOLOv8 for object detection quickly in images
 - **Gateway:** Node.js with `node-http-proxy-middleware`
 
