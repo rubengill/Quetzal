@@ -58,7 +58,7 @@ The **Node.js API Gateway** consolidates these services under a single entry poi
 
 ## Technologies Used
 - **Backend:** Flask, Node.js, Python
-- **Frontend:** React.js, Tailwind CSS, SvelteKit, PicoCss
+- **Frontend:** HTML, CSS, JavaScript, PicoCss
 - **Database:** PostgreSQL, SQLite
 - **AI video inference:** YOLO11, CUDA optimization
 - **AI image inference:** YOLOv8 for object detection quickly in images
