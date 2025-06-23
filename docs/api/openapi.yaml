@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: Image Recognition Microservices App
+  description: The app allows users to run inference on images for image detection and provides additional functionalities like video streaming, user management, and API usage tracking.
+  version: v1
+servers:
+  - url: https://isa-singh.azurewebsites.net/
+
+paths:
+  /login:
+    get:
+      summary: Display the login page
+      description: Returns the login page HTML.
+      responses:
+        '200':
+          description: Successfully retrieved the login page.
+    post:
+      summary: Authenticate user
+      description: Authenticates the user with email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successfully authenticated.
+        '401':
+          description: Unauthorized.
+
+  /register:
+    post:
+      summary: Register a new user
+      description: Allows a user to register with email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successfully registered.
+        '401':
+          description: Unauthorized.
+    get:
+      summary: Display the registration page
+      description: Returns the registration page HTML.
+      responses:
+        '200':
+          description: Successfully retrieved the registration page.
+
+  /forgot-password:
+    post:
+      summary: Forgot password
+      description: Allows a user to request a password reset using their email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Password reset email sent.
+        '401':
+          description: Unauthorized.
+
+  /protected:
+    get:
+      summary: Access protected page
+      description: Returns the protected page if authenticated.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved the protected page.
+        '401':
+          description: Unauthorized.
+
+  /dashboard:
+    get:
+      summary: Dashboard page
+      description: Returns the dashboard if authenticated.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved the dashboard page.
+        '401':
+          description: Unauthorized.
+
+  /reset:
+    get:
+      summary: Password reset page
+      description: Displays the password reset page.
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully reset password.
+
+  /forgot:
+    get:
+      summary: Forgot password page
+      description: Displays the forgot password page.
+      responses:
+        '200':
+          description: Successfully retrieved the forgot password page.
+
+  /:
+    get:
+      summary: Homepage
+      description: Displays the homepage.
+      responses:
+        '200':
+          description: Successfully retrieved the homepage.
+
+  /message:
+    get:
+      summary: Message page
+      description: Displays a page with a query-provided message.
+      parameters:
+        - name: message
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the message page.
+
+  /reset-password:
+    post:
+      summary: Reset password
+      description: Resets the password using a JWT and new password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                token:
+                  type: string
+      responses:
+        '200':
+          description: Successfully reset password.
+        '401':
+          description: Unauthorized.
+
+  /favicon.ico:
+    get:
+      summary: Favicon
+      description: Returns the favicon.
+      responses:
+        '200':
+          description: Successfully retrieved favicon.
+
+  /detect:
+    get:
+      summary: Get image with AI inference
+      description: Returns a JPEG image with inference lines based on AI detection.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully returned image with inference.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Unauthorized.
+
+  /video:
+    get:
+      summary: View live video with AI inference
+      description: Displays a live video feed with AI inference.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully displayed live video.
+        '401':
+          description: Unauthorized.
+
+  /video-feed:
+    get:
+      summary: Live video feed
+      description: Returns a live video feed.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully returned live video feed.
+        '401':
+          description: Unauthorized.
+
+  /admin:
+    get:
+      summary: Admin page
+      description: Displays the admin page for authorized admin users.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully displayed admin page.
+        '403':
+          description: Forbidden - User is not an admin.
+        '401':
+          description: Unauthorized.
+
+  /usage:
+    get:
+      summary: API usage page
+      description: Displays an HTML page with API usage statistics.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully displayed usage page.
+        '401':
+          description: Unauthorized.
+
+  /query:
+    post:
+      summary: Query data
+      description: Endpoint for querying data from the database (details TBD).
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true # Modify with exact query structure when known
+      responses:
+        '200':
+          description: Successfully queried data.
+        '401':
+          description: Unauthorized.
+
+  /delete:
+    delete:
+      summary: Delete a user
+      description: Deletes a user from the database based on the provided email.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+          description: Email of the user to delete.
+      responses:
+        '200':
+          description: Successfully deleted user.
+        '404':
+          description: User not found.
+        '401':
+          description: Unauthorized.
+
+  /update-usage:
+    put:
+      summary: Update user API usage
+      description: Updates a user's API usage counter.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                counter:
+                  type: integer
+                  description: New usage value.
+      responses:
+        '200':
+          description: Successfully updated usage.
+        '404':
+          description: User not found.
+        '401':
+          description: Unauthorized.
+
+  /docs:
+    get:
+      summary: Documentation
+      description: Serves static documentation files.
+      responses:
+        '200':
+          description: Successfully served documentation.
+
+  /usage-data:
+    get:
+      summary: API usage statistics
+      description: Returns JSON of requests made to each API route.
+      responses:
+        '200':
+          description: Successfully returned usage data.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
